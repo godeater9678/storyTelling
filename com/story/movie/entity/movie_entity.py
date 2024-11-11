@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import VARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 
-from com.switchwon.dao.db import get_database_connection_exchange
+from com.story.dao.db import get_database_connection_exchange
 
 # 데이터베이스 연결 설정 (MySQL의 경우)
 engine = get_database_connection_exchange()
@@ -11,7 +11,7 @@ Base = declarative_base()
 
 
 # WalletBlockTransaction 모델 정의
-class wallet_block_transaction_entity(Base):
+class movie_entity(Base):
     __tablename__ = 'WalletBlockTransaction'
 
     id = Column(Integer, primary_key=True, comment='식별값')

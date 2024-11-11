@@ -13,8 +13,10 @@ def remove_temp_files_in_directory(directory_path):
             if ".mp" in file_path:
                 os.remove(file_path)
 
-#기존파일 삭제
-remove_temp_files_in_directory(get_root_path())
+
+# 기존파일 삭제
+remove_temp_files_in_directory("{get_root_path()}/output")
+remove_temp_files_in_directory("{get_root_path()}/upload")
 
 subtitle = "안녕하세요, 파이썬으로 한글 TTS를 만들고 있습니다.\n안녕하세요, 파이썬으로 한글 TTS를 만들고 있습니다."
 # subtitle = "hello. i am making korean TTS with python."

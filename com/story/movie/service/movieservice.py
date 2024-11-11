@@ -1,13 +1,8 @@
-import os
 import platform
 from datetime import datetime
+
 from gtts import gTTS
-from moviepy import video
-from moviepy.editor import ImageClip, VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip
-from moviepy.config import change_settings
-from pydub import AudioSegment
-import ffmpeg
-import subprocess
+from moviepy.editor import ImageClip, AudioFileClip, TextClip, CompositeVideoClip
 
 from com.story.common.util import get_root_path
 from com.story.config.logger_config import get_logger
@@ -48,9 +43,6 @@ class MovieService:
 
         return image_clip
 
-    from moviepy.editor import VideoFileClip, AudioFileClip, TextClip, \
-        CompositeVideoClip
-
     def merge_video(self, video_clip, str_audio_path, subtitle_text):
         # 출력 파일 경로를 설정합니다
         str_output_path = f"{output_path}/{self.random_name()}.mp4"
@@ -70,7 +62,7 @@ class MovieService:
             font_path = "C:/Windows/Fonts/malgun.ttf"
         else:
             font_path = f"{get_root_path()}/resources/NanumMyeongjo.ttf"
-        subtitle = TextClip(subtitle_text, fontsize=30, color='white',font=font_path)
+        subtitle = TextClip(subtitle_text, fontsize=30, color='white', font=font_path)
         subtitle = subtitle.set_position(
             ("center", video_with_audio.size[1] - 100)).set_duration(
             video_with_audio.duration).set_start(0)

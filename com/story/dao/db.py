@@ -1,9 +1,8 @@
 import mysql.connector
-from mysql.connector import Error
-from sqlalchemy import create_engine
-
 from com.switchwon.config.logger_config import get_logger
 from com.switchwon.config.profile import active_profile
+from mysql.connector import Error
+from sqlalchemy import create_engine
 
 # 로거 설정
 logger = get_logger()
