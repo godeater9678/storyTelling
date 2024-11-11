@@ -1,0 +1,19 @@
+{
+  "database": {
+    "database_exchange": {
+      "host": "localhost",
+      "port": "3306",
+      "database": "",
+      "userid": "",
+      "password": "!"
+    }
+  },
+  "server": {
+    "port": 8080
+  },
+  "output": {
+    "path": "/output",
+    "tts_path": "/output/tts",
+    "scene_path": "/output/scene"
+  }
+}
