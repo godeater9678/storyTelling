@@ -1,9 +1,11 @@
 import os
 
+from moviepy.audio.io.AudioFileClip import AudioFileClip
+
 from com.story.common.util import get_root_path
 from com.story.movie.service.movieservice import MovieService
 
-move_service = MovieService()
+movie_service = MovieService()
 
 
 def remove_temp_files_in_directory(directory_path):
@@ -15,11 +17,12 @@ def remove_temp_files_in_directory(directory_path):
 
 
 # 기존파일 삭제
-remove_temp_files_in_directory("{get_root_path()}/output")
-remove_temp_files_in_directory("{get_root_path()}/upload")
+remove_temp_files_in_directory(f"{get_root_path()}/output")
+remove_temp_files_in_directory(f"{get_root_path()}/upload")
 
-subtitle = "안녕하세요, 파이썬으로 한글 TTS를 만들고 있습니다.\n안녕하세요, 파이썬으로 한글 TTS를 만들고 있습니다."
-# subtitle = "hello. i am making korean TTS with python."
-voice_file = move_service.make_tts(subtitle)
-image_clip = move_service.make_scene(f"{get_root_path()}/resources/0.webp", 1)
-movie_1 = move_service.merge_video(image_clip, voice_file, subtitle)
+subtitle = "동화에서 목소리 생성을 TTS로 하고자 할때 사용하는 목소리입니다."
+voiceClip = AudioFileClip(movie_service.make_tts(subtitle))
+imageClip = movie_service.make_image_to_imageClip(f"{get_root_path()}/resources/0.webp", 3)
+compositeVideoClip = movie_service.add_subtitle(imageClip, subtitle)
+imageClip_with_voiceClip = movie_service.add_audioClip(compositeVideoClip.to_ImageClip(), voiceClip)
+
