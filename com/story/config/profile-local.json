@@ -16,5 +16,6 @@
     "path": "/output",
     "tts_path": "/output/tts",
     "scene_path": "/output/scene"
-  }
+  },
+  "key": ""
 }
