@@ -36,15 +36,16 @@ class MovieService:
 
         # 이미지 파일을 불러와서 지정된 시간 동안 재생되는 클립을 생성합니다
         image_clip = ImageClip(str_image_path, duration=seconds)
+        image_clip.fps = self.fps
 
         # 비디오 파일로 저장합니다
-        image_clip.write_videofile(str_output_path, fps=24)
+        image_clip.write_videofile(str_output_path)
 
         print("이미지가 성공적으로 동영상으로 저장되었습니다.")
 
         return image_clip
 
-    def add_audioClip(self, video_clip: ImageClip, audio_clip: AudioFileClip) -> ImageClip:
+    def add_audioClip(self, video_clip: ImageClip, audio_clip: AudioFileClip) -> str:
         # Set duration if not set, using the audio's duration
         if not video_clip.duration:
             video_clip = video_clip.set_duration(audio_clip.duration)
@@ -54,9 +55,9 @@ class MovieService:
 
         # Optional: Save to file
         str_output_path = f"{output_path}/{self.random_name()}.mp4"
-        video_with_audio.write_videofile(str_output_path, codec='libx264', audio_codec='aac', fps=24)
+        video_with_audio.write_videofile(str_output_path, codec='libx264', audio_codec='aac', fps=self.fps)
 
-        return video_with_audio
+        return str_output_path
 
     def add_subtitle(self, video_clip: ImageClip, subtitle_text: str) -> CompositeVideoClip:
         font_path = None

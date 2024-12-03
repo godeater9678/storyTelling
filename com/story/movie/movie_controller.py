@@ -3,6 +3,7 @@ import shutil
 
 from fastapi import File, UploadFile, Form, APIRouter
 from fastapi.responses import FileResponse
+from moviepy.audio.io.AudioFileClip import AudioFileClip
 from starlette.responses import StreamingResponse
 
 from com.story.config.profile import active_profile
@@ -14,7 +15,7 @@ router = APIRouter()
 from com.story.common.util import get_root_path
 from com.story.movie.service.movieservice import MovieService
 
-move_service = MovieService()
+movie_service = MovieService()
 
 @router.post("/process/")
 async def process_files(
@@ -32,9 +33,10 @@ async def process_files(
         shutil.copyfileobj(bg_image.file, buffer)
 
     # subtitle = "hello. i am making korean TTS with python."
-    #voice_file = move_service.make_tts(subtitle)
-    image_clip = move_service.make_scene(f"{file_path_bg}", 1)
-    video_path = move_service.merge_video(image_clip, file_path_voice, subtitle)
+    voiceClip = AudioFileClip(file_path_voice)
+    imageClip = movie_service.make_image_to_imageClip(file_path_bg, 3)
+    compositeVideoClip = movie_service.add_subtitle(imageClip, subtitle)
+    resultFilePath = movie_service.add_audioClip(compositeVideoClip.to_ImageClip(), voiceClip)
 
-    file_stream = open(video_path, "rb")
+    file_stream = open(resultFilePath, "rb")
     return StreamingResponse(file_stream, media_type="video/mp4")

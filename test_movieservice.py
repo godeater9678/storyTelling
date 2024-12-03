@@ -24,5 +24,7 @@ subtitle = "동화에서 목소리 생성을 TTS로 하고자 할때 사용하�
 voiceClip = AudioFileClip(movie_service.make_tts(subtitle))
 imageClip = movie_service.make_image_to_imageClip(f"{get_root_path()}/resources/0.webp", 3)
 compositeVideoClip = movie_service.add_subtitle(imageClip, subtitle)
-imageClip_with_voiceClip = movie_service.add_audioClip(compositeVideoClip.to_ImageClip(), voiceClip)
+resultPath = movie_service.add_audioClip(compositeVideoClip.to_ImageClip(), voiceClip)
+
+print(resultPath)
 
