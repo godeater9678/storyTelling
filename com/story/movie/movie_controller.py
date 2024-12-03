@@ -13,7 +13,7 @@ profile = active_profile()
 router = APIRouter()
 
 from com.story.common.util import get_root_path
-from com.story.movie.service.movieservice import MovieService
+from com.story.movie.service.movieService import MovieService
 
 movie_service = MovieService()
 

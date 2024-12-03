@@ -1,3 +1,4 @@
+import base64
 import os
 
 from openai import OpenAI
@@ -10,7 +11,7 @@ logger = get_logger()
 profile = active_profile()
 
 # gets API Key from environment variable OPENAI_API_KEY
-os.environ["OPENAI_API_KEY"] = profile["gpt"]["token"]
+os.environ["OPENAI_API_KEY"] = base64.b64decode(profile["key1"]).decode('utf-8')
 client = OpenAI()
 
 
