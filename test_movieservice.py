@@ -3,7 +3,7 @@ import os
 from moviepy.audio.io.AudioFileClip import AudioFileClip
 
 from com.story.common.util import get_root_path
-from com.story.movie.service.movieservice import MovieService
+from com.story.movie.service.movieService import MovieService
 
 movie_service = MovieService()
 
@@ -27,4 +27,3 @@ compositeVideoClip = movie_service.add_subtitle(imageClip, subtitle)
 resultPath = movie_service.add_audioClip(compositeVideoClip.to_ImageClip(), voiceClip)
 
 print(resultPath)
-

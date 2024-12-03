@@ -4,9 +4,9 @@ import uvicorn
 from fastapi import FastAPI
 
 from com.story.common.util import get_root_path
-from com.story.movie.movie_controller import router as movie_router
 from com.story.config.logger_config import get_logger
 from com.story.config.profile import active_profile
+from com.story.movie.movieController import router as movie_router
 
 # 로거 설정
 logger = get_logger()
