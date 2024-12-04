@@ -20,7 +20,7 @@ router = APIRouter()
 movieService = MovieService()
 
 
-@router.post(f"{root_path}/movie/compose")
+@router.post(f"{root_path}/movie/compose",  response_description="파일 스트림을 반환합니다. 반환된 스트림을 클라이언트에서 파일로 저장하세요.")
 async def process_files(
         subtitle: str = Form(...),
         voice: UploadFile = File(...),
