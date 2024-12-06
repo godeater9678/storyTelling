@@ -3,6 +3,7 @@ from datetime import datetime
 
 from gtts import gTTS
 from moviepy.editor import ImageClip, AudioFileClip, TextClip, CompositeVideoClip
+#pip3 install moviepy==1.0.3
 
 from com.story.common.util import get_root_path
 from com.story.config.logger_config import get_logger
