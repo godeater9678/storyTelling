@@ -1,3 +1,4 @@
+import asyncio
 import os
 import shutil
 
@@ -11,6 +12,7 @@ from com.story.dto.CommonResponse import CommonResponse
 from com.story.movie.service.imageService import generate_images
 from com.story.movie.service.movieService import MovieService
 from com.story.movie.service.storyService import generate_story
+from com.story.movie.service.voiceService import get_voice
 
 root_path = '/movie'
 profile = active_profile()
@@ -20,7 +22,7 @@ router = APIRouter()
 movieService = MovieService()
 
 
-@router.post(f"{root_path}/movie/compose",  response_description="파일 스트림을 반환합니다. 반환된 스트림을 클라이언트에서 파일로 저장하세요.")
+@router.post(f"{root_path}/movie/compose", response_description="파일 스트림을 반환합니다. 반환된 스트림을 클라이언트에서 파일로 저장하세요.")
 async def process_files(
         subtitle: str = Form(...),
         voice: UploadFile = File(...),
@@ -53,5 +55,12 @@ def story(prompt):
 
 @router.post(f"{root_path}/images")
 def image(prompt, imageCount: int = 5):
-    data = generate_images(prompt, imageCount)
+    data = asyncio.run(generate_images(prompt, imageCount))
     return CommonResponse(data, 200 if data is not None else 500)
+
+
+@router.post(f"{root_path}/voice")
+def image(text, voice_id='ZcZcEsYxXAIc3nNSev1H'):
+    file = get_voice(text, voice_id=voice_id)
+    file_stream = open(file, "rb")
+    return StreamingResponse(file_stream, media_type="audio/mp3")

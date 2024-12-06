@@ -1,8 +1,9 @@
 import mysql.connector
-from com.story.config.logger_config import get_logger
-from com.story.config.profile import active_profile
 from mysql.connector import Error
 from sqlalchemy import create_engine
+
+from com.story.config.logger_config import get_logger
+from com.story.config.profile import active_profile
 
 # 로거 설정
 logger = get_logger()

@@ -71,9 +71,9 @@ class MovieService:
             video_clip.duration).set_start(0)
 
         # 자막을 포함한 영상 생성
-        #str_result_path = f"{output_path}/result-{self.random_name()}.mp4"
+        # str_result_path = f"{output_path}/result-{self.random_name()}.mp4"
         final_video = CompositeVideoClip([video_clip, subtitle])
-        #final_video.write_videofile(str_result_path, codec="libx264", fps=24)
+        # final_video.write_videofile(str_result_path, codec="libx264", fps=24)
 
         return final_video
 

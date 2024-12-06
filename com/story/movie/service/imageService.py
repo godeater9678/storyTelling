@@ -1,5 +1,7 @@
+import asyncio
 import base64
 import os
+from typing import Any
 
 from openai import OpenAI
 from openai.types import Image
@@ -15,16 +17,26 @@ os.environ["OPENAI_API_KEY"] = base64.b64decode(profile["key1"]).decode('utf-8')
 client = OpenAI()
 
 
-def generate_images(prompt: str, imageCount: int = 5) -> list[Image]:
-    # 하나의 프롬프트 설정
-    # prompt = "A serene fairytale forest at sunrise with mystical creatures and glowing flora"
-
-    # 이미지 생성 (5개)
-    return client.images.generate(
+async def generate_single_image(client, prompt: str) -> Image:
+    """단일 이미지 생성"""
+    response = client.images.generate(
+        model="dall-e-3",
         prompt=prompt,
-        n=imageCount,
+        n=1,
         size="1024x1024"
-    ).data
+    )
+    return response.data[0]
+
+
+async def generate_images(prompt: str, imageCount: int = 5) -> tuple[Any]:
+    """비동기로 여러 이미지를 생성"""
+    tasks = []
+    for _ in range(imageCount):
+        tasks.append(generate_single_image(client, prompt))
+
+    # 모든 태스크를 병렬로 실행
+    images = await asyncio.gather(*tasks)
+    return images
 
 # # 각 이미지 다운로드 및 로컬 저장
 # for i, data in enumerate(response.data):
