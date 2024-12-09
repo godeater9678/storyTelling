@@ -37,5 +37,5 @@ def remove_temp_files_in_directory(directory_path):
                 os.remove(file_path)
 
 
-remove_temp_files_in_directory(f"{get_root_path()}/output")
-remove_temp_files_in_directory(f"{get_root_path()}/upload")
+# remove_temp_files_in_directory(f"{get_root_path()}/output")
+# remove_temp_files_in_directory(f"{get_root_path()}/upload")

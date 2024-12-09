@@ -3,7 +3,6 @@ from datetime import datetime
 
 from gtts import gTTS
 from moviepy.editor import ImageClip, AudioFileClip, TextClip, CompositeVideoClip
-#pip3 install moviepy==1.0.3
 
 from com.story.common.util import get_root_path
 from com.story.config.logger_config import get_logger
@@ -68,7 +67,7 @@ class MovieService:
             font_path = f"{get_root_path()}/resources/fonts/AppleSDGothicNeo.ttc"
         subtitle = TextClip(subtitle_text, fontsize=30, color='white', font=font_path)
         subtitle = subtitle.set_position(
-            ("center", video_clip.size[1] - 100)).set_duration(
+            ("center", video_clip.size[1] - 130)).set_duration(
             video_clip.duration).set_start(0)
 
         # 자막을 포함한 영상 생성

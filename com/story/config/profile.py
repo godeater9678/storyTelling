@@ -38,4 +38,5 @@ def active_profile():
 
         print(f"Active Profile: {active_profile}")
         __server_profile = __load_config(active_profile)
+        __server_profile['active_profile'] = active_profile
     return __server_profile

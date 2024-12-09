@@ -2,7 +2,8 @@ import asyncio
 import os
 import shutil
 
-from fastapi import File, UploadFile, Form, APIRouter
+from fastapi import File, UploadFile, Form, APIRouter, Request
+from fastapi.responses import FileResponse
 from moviepy.audio.io.AudioFileClip import AudioFileClip
 from starlette.responses import StreamingResponse
 
@@ -22,8 +23,9 @@ router = APIRouter()
 movieService = MovieService()
 
 
-@router.post(f"{root_path}/movie/compose", response_description="파일 스트림을 반환합니다. 반환된 스트림을 클라이언트에서 파일로 저장하세요.")
+@router.post(f"{root_path}/movie/compose")
 async def process_files(
+        request: Request,
         subtitle: str = Form(...),
         voice: UploadFile = File(...),
         bg_image: UploadFile = File(...)
@@ -43,8 +45,13 @@ async def process_files(
     compositeVideoClip = movieService.add_subtitle(imageClip, subtitle)
     resultFilePath = movieService.add_audioClip(compositeVideoClip.to_ImageClip(), voiceClip)
 
-    file_stream = open(resultFilePath, "rb")
-    return StreamingResponse(file_stream, media_type="video/mp4")
+    # file_stream = open(resultFilePath, "rb")
+    # return StreamingResponse(file_stream, media_type="video/mp4")
+
+    filename = os.path.basename(resultFilePath)
+    server_url =  profile['web_path']
+    fullPath = f"{server_url}{root_path}/download/{filename}"
+    return CommonResponse(fullPath, 200 if fullPath is not None else 500)
 
 
 @router.post(f"{root_path}/story")
@@ -59,8 +66,21 @@ def image(prompt, imageCount: int = 5):
     return CommonResponse(data, 200 if data is not None else 500)
 
 
+# @router.post(f"{root_path}/voice")
+# def voice(text, voice_id='ZcZcEsYxXAIc3nNSev1H'):
+#     file = get_voice(text, voice_id=voice_id)
+#     file_stream = open(file, "rb")
+#     return StreamingResponse(file_stream, media_type="audio/mp3")
+
 @router.post(f"{root_path}/voice")
-def image(text, voice_id='ZcZcEsYxXAIc3nNSev1H'):
-    file = get_voice(text, voice_id=voice_id)
-    file_stream = open(file, "rb")
-    return StreamingResponse(file_stream, media_type="audio/mp3")
+def voice(request:Request, text: str, voice_id='ZcZcEsYxXAIc3nNSev1H'):
+    filepath = get_voice(text, voice_id=voice_id)
+    filename = os.path.basename(filepath)
+    server_url =  profile['web_path']
+    fullPath = f"{server_url}{root_path}/download/{filename}"
+    return CommonResponse(fullPath, 200 if fullPath is not None else 500)
+
+@router.get(root_path+"/download/{filename}")
+def voiceLinks(filename: str):
+    path = f"{get_root_path()}/output/{filename}"
+    return FileResponse(path, media_type="application/octet-stream", filename=filename)
