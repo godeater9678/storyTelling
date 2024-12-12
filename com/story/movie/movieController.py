@@ -5,7 +5,6 @@ import shutil
 from fastapi import File, UploadFile, Form, APIRouter, Request
 from fastapi.responses import FileResponse
 from moviepy.audio.io.AudioFileClip import AudioFileClip
-from starlette.responses import StreamingResponse
 
 from com.story.common.util import get_root_path
 from com.story.config.profile import active_profile
@@ -49,7 +48,7 @@ async def process_files(
     # return StreamingResponse(file_stream, media_type="video/mp4")
 
     filename = os.path.basename(resultFilePath)
-    server_url =  profile['web_path']
+    server_url = profile['web_path']
     fullPath = f"{server_url}{root_path}/download/{filename}"
     return CommonResponse(fullPath, 200 if fullPath is not None else 500)
 
@@ -73,14 +72,15 @@ def image(prompt, imageCount: int = 5):
 #     return StreamingResponse(file_stream, media_type="audio/mp3")
 
 @router.post(f"{root_path}/voice")
-def voice(request:Request, text: str, voice_id='ZcZcEsYxXAIc3nNSev1H'):
+def voice(request: Request, text: str, voice_id='ZcZcEsYxXAIc3nNSev1H'):
     filepath = get_voice(text, voice_id=voice_id)
     filename = os.path.basename(filepath)
-    server_url =  profile['web_path']
+    server_url = profile['web_path']
     fullPath = f"{server_url}{root_path}/download/{filename}"
     return CommonResponse(fullPath, 200 if fullPath is not None else 500)
 
-@router.get(root_path+"/download/{filename}")
+
+@router.get(root_path + "/download/{filename}")
 def voiceLinks(filename: str):
     path = f"{get_root_path()}/output/{filename}"
     return FileResponse(path, media_type="application/octet-stream", filename=filename)

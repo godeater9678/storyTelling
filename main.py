@@ -3,7 +3,6 @@ import os
 import uvicorn
 from fastapi import FastAPI
 
-from com.story.common.util import get_root_path
 from com.story.config.logger_config import get_logger
 from com.story.config.profile import active_profile
 from com.story.movie.movieController import router as movie_router
@@ -35,7 +34,6 @@ def remove_temp_files_in_directory(directory_path):
             file_path = os.path.join(root, file_name)
             if ".mp" in file_path:
                 os.remove(file_path)
-
 
 # remove_temp_files_in_directory(f"{get_root_path()}/output")
 # remove_temp_files_in_directory(f"{get_root_path()}/upload")
